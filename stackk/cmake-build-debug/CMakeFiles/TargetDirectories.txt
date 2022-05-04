@@ -1,0 +1,3 @@
+/home/nikita/CLionProjects/stackk/cmake-build-debug/CMakeFiles/stackk.dir
+/home/nikita/CLionProjects/stackk/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nikita/CLionProjects/stackk/cmake-build-debug/CMakeFiles/rebuild_cache.dir
