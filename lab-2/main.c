@@ -12,17 +12,84 @@
  typedef struct Node {
     data product;
     struct Node *next;
+    struct Node *prev;
 } Node;
 
+ typedef struct DbLinkedList{
+     size_t size;
+     Node *head;
+     Node *tail;
+ }DbLinkedList;
 
-void push(Node **head,data product) {
+
+DbLinkedList * createDblLinkedList() {
+    DbLinkedList *tmp = (DbLinkedList*) malloc(sizeof(DbLinkedList));
+    tmp->size = 0;
+    tmp->head = tmp->tail = NULL;
+
+    return tmp;
+}
+
+void push(DbLinkedList *list,data product) {
 
     Node *tmp = (Node*) malloc(sizeof(Node));
-    tmp->product=product;
+    if (tmp == NULL) {
+        exit(1);
+    }
+    tmp->product = product;
+    tmp->next = list->head;
+    tmp->prev = NULL;
+    if (list->head) {
+        list->head->prev = tmp;
+    }
+    list->head = tmp;
 
-    tmp->next = (*head);
-    (*head) = tmp;
+    if (list->tail == NULL) {
+        list->tail = tmp;
+    }
+    list->size++;
+}
 
+
+Node* getNth(DbLinkedList *list, struct product index) {
+    Node *tmp = list->head;
+    size_t i = 0;
+
+    while (tmp && i < index) {
+        tmp = tmp->next;
+        i++;
+    }
+
+    return tmp;
+}
+
+void* deleteNth(DbLinkedList *list, struct product index) {
+    Node *elm = NULL;
+    void *tmp = NULL;
+    elm = getNth(list, index;
+    if (elm == NULL) {
+        exit(5);
+    }
+    if (elm->prev) {
+        elm->prev->next = elm->next;
+    }
+    if (elm->next) {
+        elm->next->prev = elm->prev;
+    }
+    tmp = elm->value;
+
+    if (!elm->prev) {
+        list->head = elm->next;
+    }
+    if (!elm->next) {
+        list->tail = elm->prev;
+    }
+
+    free(elm);
+
+    list->size--;
+
+    return tmp;
 }
 
 Node *delete(Node *p){
@@ -36,7 +103,19 @@ Node *tmp=p,*f,*prev=NULL;
     {
         if(!strcmp(name,tmp->product.name))
         {
-            if(p==tmp) p=tmp->next;
+            if(p==tmp->prev) {
+                p=tmp->prev->next=p->next;
+            }
+            if (p==tmp->next) {
+                p=tmp->next->prev = p->prev;
+            }
+
+            if (!p==tmp->prev) {
+                list->head = elm->next;
+            }
+            if (!elm->next) {
+                list->tail = elm->prev;
+            }
 
             f=tmp;
             tmp=tmp->next;
@@ -89,36 +168,36 @@ void totalCost(Node *head){
     printf("total cost: %d ",total);
 }
 
-void printLinkedList(Node *head) {
-    while (head) {
-        printf("name: '%s' ", head->product.name);
-        printf("count: '%d' ", head->product.count);
-        printf("price: (%f) ", head->product.price);
-        printf("\n");
-        head = head->next;
+void printDblLinkedList(DbLinkedList *list) {
+    Node *tmp = list->head;
+    while (tmp) {
+        printf("name: '%s' ",tmp->product.name);
+        printf("count: '%d' ",tmp->product.count);
+        printf("price: (%f) ",tmp->product.price);
+        tmp = tmp->next;
     }
     printf("\n");
 }
 
 int main(){
-    Node* head = NULL;
+    DbLinkedList *list=createDblLinkedList();
     struct product pr1={"milk", 10, 30.5f};
     struct product pr2={"oranges", 50, 10.0f};
     struct product pr3={"fish", 5, 40.1f};
     struct product pr4={"cheese", 13, 20.5f};
-    push(&head,pr1);
-    push(&head,pr2);
-    push(&head,pr3);
-    push(&head,pr4);
+    push(list,pr1);
+    push(list,pr2);
+    push(list,pr3);
+    push(list,pr4);
 
     printf("before: \n");
-    printLinkedList(head);
+    printDblLinkedList(list);
 
-    delete(head);
-    head=sort(head);
-    printf("after:\n");
-
-    printLinkedList(head);
-
-    totalCost(head);
+//    delete(head);
+//    head=sort(head);
+//    printf("after:\n");
+//
+//    printLinkedList(head);
+//
+//    totalCost(head);
 }
