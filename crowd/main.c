@@ -64,6 +64,6 @@ int main () {
     }
 
 
-    printf("%d",ans);
+    printf("%d",visited[0]);
     return 0;
 }
