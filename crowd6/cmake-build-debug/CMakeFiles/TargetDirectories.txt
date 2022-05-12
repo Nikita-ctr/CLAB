@@ -1,0 +1,3 @@
+/home/nikita/CLionProjects/crowd6/cmake-build-debug/CMakeFiles/crowd6.dir
+/home/nikita/CLionProjects/crowd6/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/nikita/CLionProjects/crowd6/cmake-build-debug/CMakeFiles/rebuild_cache.dir
